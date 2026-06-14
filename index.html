@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shruti Warkad — Tinkerers' Lab Internship Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f1a;
+    --surface: #141729;
+    --card: #1a1e35;
+    --border: #252a45;
+    --accent: #7c6af7;
+    --accent2: #4fc8e4;
+    --accent3: #f97f6b;
+    --text: #e8eaf6;
+    --muted: #8b90b8;
+    --white: #ffffff;
+    --gradient: linear-gradient(135deg, #7c6af7 0%, #4fc8e4 100%);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,15,26,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+    transition: background 0.3s;
+  }
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent2);
+    letter-spacing: 0.05em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #home {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 40%, rgba(124,106,247,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 20% 70%, rgba(79,200,228,0.08) 0%, transparent 55%);
+  }
+  .grid-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(124,106,247,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,106,247,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridPan 20s linear infinite;
+  }
+  @keyframes gridPan { to { background-position: 60px 60px; } }
+
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 900px; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-role {
+    font-size: 1rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--gradient);
+    color: #fff;
+    padding: 0.7rem 1.6rem;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,106,247,0.4); }
+
+  .hero-visual {
+    opacity: 0;
+    animation: fadeIn 1.2s 0.5s forwards;
+  }
+  .circuit-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .circuit-card::before {
+    content: '';
+    position: absolute; top: -1px; left: 20%; right: 20%;
+    height: 2px;
+    background: var(--gradient);
+    border-radius: 0 0 4px 4px;
+  }
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+  .chip.accent { border-color: rgba(124,106,247,0.4); color: var(--accent); background: rgba(124,106,247,0.08); }
+  .chip.accent2 { border-color: rgba(79,200,228,0.4); color: var(--accent2); background: rgba(79,200,228,0.08); }
+
+  .pulse-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #4caf50;
+    display: inline-block;
+    animation: pulse 2s infinite;
+    margin-right: 6px;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(76,175,80,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(76,175,80,0); }
+  }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 6rem 2rem; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .section-subtitle { color: var(--muted); max-width: 520px; font-size: 0.95rem; }
+  .container { max-width: 1000px; margin: 0 auto; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--surface); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 3rem; }
+  .about-text p { color: var(--muted); margin-bottom: 1rem; line-height: 1.8; }
+  .about-text strong { color: var(--text); }
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .skill-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .skill-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .skill-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .skill-name { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+  .skill-lvl { font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
+  .skill-bar { height: 3px; background: var(--border); border-radius: 2px; margin-top: 0.5rem; overflow: hidden; }
+  .skill-fill { height: 100%; background: var(--gradient); border-radius: 2px; width: 0; transition: width 1.2s ease; }
+
+  /* ── JOURNEY (WEEK TABS) ── */
+  #journey { background: var(--bg); }
+  .week-tabs { display: flex; gap: 0.5rem; margin: 2.5rem 0 2rem; flex-wrap: wrap; }
+  .week-tab {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .week-tab:hover { border-color: var(--accent); color: var(--accent); }
+  .week-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .week-panel { display: none; }
+  .week-panel.active { display: block; animation: fadeIn 0.4s ease; }
+
+  .days-timeline { position: relative; padding-left: 2rem; }
+  .days-timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 8px; bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    border-radius: 2px;
+  }
+  .day-entry {
+    position: relative;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .day-entry.visible { opacity: 1; transform: translateX(0); }
+  .day-entry::before {
+    content: '';
+    position: absolute;
+    left: -2.35rem; top: 10px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(124,106,247,0.2);
+  }
+  .day-header {
+    display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;
+    cursor: pointer;
+  }
+  .day-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    background: rgba(124,106,247,0.12);
+    color: var(--accent);
+    border: 1px solid rgba(124,106,247,0.25);
+    white-space: nowrap;
+  }
+  .day-title { font-size: 1rem; font-weight: 600; color: var(--white); }
+  .day-toggle { margin-left: auto; color: var(--muted); font-size: 0.9rem; transition: transform 0.3s; }
+  .day-toggle.open { transform: rotate(180deg); }
+  .day-body {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.4s ease, padding 0.4s ease;
+    padding-top: 0; padding-bottom: 0;
+  }
+  .day-body.open { max-height: 4000px; opacity: 1; padding: 1.5rem; }
+  .day-topic {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+  .day-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.75; }
+  .day-desc p { margin-bottom: 0.6rem; }
+  .day-desc ul { padding-left: 1.2rem; }
+  .day-desc li { margin-bottom: 0.3rem; }
+  .day-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .day-tag {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    background: rgba(249,127,107,0.1);
+    color: var(--accent3);
+    border: 1px solid rgba(249,127,107,0.2);
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--surface); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .project-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: 0 20px 60px rgba(124,106,247,0.15);
+  }
+  .project-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--gradient);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1rem;
+  }
+  .project-title { font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; }
+  .project-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .tech-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(79,200,228,0.08);
+    color: var(--accent2);
+    border: 1px solid rgba(79,200,228,0.2);
+  }
+
+  /* ── GOALS ── */
+  #goals { background: var(--bg); }
+  .goals-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+  .goals-list { list-style: none; }
+  .goals-list li {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 1rem; align-items: start;
+    color: var(--muted); font-size: 0.92rem; line-height: 1.6;
+  }
+  .goals-list li:last-child { border-bottom: none; }
+  .goal-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    min-width: 28px;
+    margin-top: 3px;
+  }
+  .goals-quote {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    position: relative;
+  }
+  .goals-quote::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    color: var(--accent);
+    opacity: 0.15;
+    position: absolute;
+    top: -1rem; left: 1.5rem;
+    line-height: 1;
+  }
+  .goals-quote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text);
+    line-height: 1.7;
+    position: relative;
+  }
+  .goals-quote cite {
+    display: block;
+    margin-top: 1rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+  .footer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--white);
+    margin-bottom: 0.25rem;
+  }
+  .footer-sub { font-size: 0.8rem; color: var(--muted); }
+  .footer-sub span {
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 720px) {
+    .hero-inner, .about-grid, .goals-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-visual { order: -1; }
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>//</span> SW.portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#goals">Goals</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="grid-lines"></div>
+  <div class="hero-inner">
+    <div>
+      <p class="hero-tag">✦ Tinkerers' Lab Intern · 2025</p>
+      <h1 class="hero-name">Shruti<br><em>Warkad</em></h1>
+      <p class="hero-role" style="opacity:0;animation:fadeUp 0.8s 0.6s forwards">
+        B Pharmacy Student &nbsp;·&nbsp; IoT Enthusiast &nbsp;·&nbsp; Maker
+      </p>
+      <a href="#journey" class="hero-cta">View Internship Journey →</a>
+    </div>
+    <div class="hero-visual">
+      <div class="circuit-card">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);margin-bottom:0.5rem">
+          <span class="pulse-dot"></span>Currently building
+        </p>
+        <p style="font-size:0.95rem;font-weight:600;color:var(--white)">Healthcare IoT Projects</p>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:0.25rem">Merging Pharmacy × Electronics</p>
+        <div class="skill-chips" style="margin-top:1.2rem">
+          <span class="chip accent">ESP32</span>
+          <span class="chip accent2">Firebase</span>
+          <span class="chip accent">Fusion 360</span>
+          <span class="chip accent2">Arduino</span>
+          <span class="chip">Inkscape</span>
+          <span class="chip">LaserCAD</span>
+          <span class="chip accent">Edge Impulse</span>
+          <span class="chip">3D Printing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label reveal">// about me</p>
+    <h2 class="section-title reveal">Where Pharmacy<br>Meets Technology</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>Hi, I'm <strong>Shruti Warkad</strong> — a B Pharmacy student with a growing passion for the intersection of healthcare and emerging technology. My internship at <strong>Tinkerers' Lab</strong> has been a journey of discovery: from version control and vector design to 3D printing, laser cutting, and IoT programming.</p>
+        <p>Over four weeks I went from setting up my first GitHub repository to training a machine learning model on Edge Impulse. Every day brought a new tool, a new concept, and a new way of thinking about how technology can serve healthcare.</p>
+        <p>I believe the future of pharmacy lies in <strong>smart healthcare systems</strong> — connected devices, real-time monitoring, and AI-assisted diagnostics. This internship is my first step toward that vision.</p>
+      </div>
+      <div>
+        <div class="skills-grid reveal">
+          <div class="skill-item">
+            <div class="skill-icon">⚡</div>
+            <div class="skill-name">Basic Electronics</div>
+            <div class="skill-lvl">Circuits & GPIO</div>
+            <div class="skill-bar"><div class="skill-fill" data-w="65"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🌐</div>
+            <div class="skill-name">IoT Fundamentals</div>
+            <div class="skill-lvl">ESP32 & Firebase</div>
+            <div class="skill-bar"><div class="skill-fill" data-w="60"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🤖</div>
+            <div class="skill-name">Arduino / C++</div>
+            <div class="skill-lvl">Sketches & Sensors</div>
+            <div class="skill-bar"><div class="skill-fill" data-w="55"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🧊</div>
+            <div class="skill-name">Fusion 360</div>
+            <div class="skill-lvl">3D CAD · Beginner</div>
+            <div class="skill-bar"><div class="skill-fill" data-w="45"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">💊</div>
+            <div class="skill-name">Pharmaceutics</div>
+            <div class="skill-lvl">Core Degree Subject</div>
+            <div class="skill-bar"><div class="skill-fill" data-w="80"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🧬</div>
+            <div class="skill-name">Anatomy & Physiology</div>
+            <div class="skill-lvl">Human Body Systems</div>
+            <div class="skill-bar"><div class="skill-fill" data-w="75"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="container">
+    <p class="section-label reveal">// internship journey</p>
+    <h2 class="section-title reveal">Four Weeks of Making</h2>
+    <p class="section-subtitle reveal">Each day introduced a new tool, skill, or concept — click any day to expand the full notes.</p>
+
+    <div class="week-tabs reveal">
+      <button class="week-tab active" onclick="showWeek(1)">Week 1</button>
+      <button class="week-tab" onclick="showWeek(2)">Week 2</button>
+      <button class="week-tab" onclick="showWeek(3)">Week 3</button>
+      <button class="week-tab" onclick="showWeek(4)">Week 4</button>
+    </div>
+
+    <!-- WEEK 1 -->
+    <div class="week-panel active" id="week-1">
+      <div class="days-timeline">
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 1</span>
+            <span class="day-title">GitHub & Version Control</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Tool: GitHub · Concept: Version Control</p>
+            <div class="day-desc">
+              <p>Introduced to GitHub and the fundamentals of version control — how code history is tracked and team collaboration is managed through repositories.</p>
+              <ul>
+                <li>Searched for GitHub, created an account (email → password → username → plan → verify)</li>
+                <li>Created a new repository and copied its URL</li>
+                <li>Opened terminal, used <code>git clone</code> to copy the repo to the local machine</li>
+                <li>Authenticated with GitHub username and password</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">GitHub</span><span class="day-tag">Git</span><span class="day-tag">Version Control</span><span class="day-tag">Terminal</span></div>
+          </div>
+        </div>
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 2</span>
+            <span class="day-title">Inkscape — Vector Logo Design</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Tool: Inkscape 1.4.4 · Concept: Vector Graphics</p>
+            <div class="day-desc">
+              <p>Designed the Tinkerers' Lab internship badge in Inkscape. Learned that logos built as vectors stay sharp at any size.</p>
+              <ul>
+                <li>Downloaded &amp; installed Inkscape 1.4.4 (Windows 64-bit)</li>
+                <li>Drew red and blue rings using the Circle/Ellipse tool</li>
+                <li>Added curved text: <em>TINKERERS' LAB</em> &amp; <em>INTERN</em></li>
+                <li>Used Path → Object to Path for editable vector text</li>
+                <li>Used Object → Lower/Raise for correct layer stacking</li>
+                <li>Aligned elements with Align &amp; Distribute panel</li>
+                <li>Compared design with official Sanjivani University seal</li>
+                <li>Exported final PNG for portfolio</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">Inkscape</span><span class="day-tag">Vector Design</span><span class="day-tag">SVG</span><span class="day-tag">Logo</span></div>
+          </div>
+        </div>
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 3</span>
+            <span class="day-title">Autodesk Fusion 360 — 3D CAD</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Tool: Autodesk Fusion (Education) · Concept: 3D Modeling</p>
+            <div class="day-desc">
+              <p>Introduction to 3D CAD. Learned that 3D parts start as constrained 2D sketches on a plane, then gain volume through operations like Revolve and Shell.</p>
+              <ul>
+                <li>Obtained free Autodesk Education license (Student role)</li>
+                <li>Set document units to millimeters</li>
+                <li>Created a 2D sketch on the XY plane with the Line tool</li>
+                <li>Used Fit Point Spline to draw smooth S-curve profiles</li>
+                <li>Applied Revolve to spin the closed profile → vase-shaped solid</li>
+                <li>Applied Shell (2 mm wall thickness) to hollow the top opening</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">Fusion 360</span><span class="day-tag">3D CAD</span><span class="day-tag">Revolve</span><span class="day-tag">Shell</span></div>
+          </div>
+        </div>
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 4</span>
+            <span class="day-title">3D Printing at Tinkerers' Lab</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Tool: Bambu Lab Printers · Concept: FDM 3D Printing</p>
+            <div class="day-desc">
+              <p>Hands-on session with the Bambu Lab printer lineup at Tinkerers' Lab. Designed and printed a mobile stand.</p>
+              <ul>
+                <li><strong>FDM Process:</strong> Create model → Slice in Bambu Studio → Load filament → Print layer by layer → Remove &amp; post-process</li>
+                <li><strong>Machines used:</strong> Bambu Lab A1 Mini (180×180×180 mm, 500 mm/s) &amp; H2D (350×320×325 mm, 1000 mm/s, dual nozzle)</li>
+                <li><strong>Filaments:</strong> PLA, ABS, PETG, TPU — PLA used for the mobile stand (2 mm bottom thickness)</li>
+                <li>Designed stand in Fusion 360, sliced in Bambu Studio, printed successfully</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">3D Printing</span><span class="day-tag">FDM</span><span class="day-tag">Bambu Lab</span><span class="day-tag">PLA</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WEEK 2 -->
+    <div class="week-panel" id="week-2">
+      <div class="days-timeline">
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 1</span>
+            <span class="day-title">LaserCAD & Laser Cutting Setup</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Tool: LaserCAD V8.28 · Concept: Laser Cutting Parameters</p>
+            <div class="day-desc">
+              <p>Installed LaserCAD and designed a nameplate. Learned that <strong>Cut</strong> uses high power to go through material while <strong>Engrave</strong> uses lower power for surface marking.</p>
+              <ul>
+                <li>Downloaded LaserCAD V8.28.18 from sztrocen.com (Trocen)</li>
+                <li>Installed with CorelDraw 12 plugin and USB driver</li>
+                <li>Opened workspace: 1200 × 900 mm bed, COM3</li>
+                <li>Drew nameplate: Ellipse tool (oval) + Text tool → typed "Shruti"</li>
+                <li>Assigned layers: black oval = Cut (speed 100, power 50%), blue text = Engrave (speed 180, power 30%)</li>
+                <li>Connected via COM3, used Download Document to send to machine</li>
+                <li><strong>Made:</strong> Wood keychain &amp; acrylic keychain</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">LaserCAD</span><span class="day-tag">Laser Cutting</span><span class="day-tag">CO₂ Laser</span><span class="day-tag">Acrylic</span></div>
+          </div>
+        </div>
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 2</span>
+            <span class="day-title">Laser Parameter Chart (SIL Lab)</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Concept: Speed, Power & Mode by Material</p>
+            <div class="day-desc">
+              <p>Studied the SIL lab's laser parameter reference chart — the cheat sheet used when setting Layer Parameters in LaserCAD.</p>
+              <ul>
+                <li><strong>Acrylic CUT:</strong> 2 mm → speed 22–24, power 45–50; 18 mm → speed 1–2, power 90–95</li>
+                <li><strong>Acrylic Engrave:</strong> SCAN mode, speed 280–300, power 12–20</li>
+                <li><strong>Other materials:</strong> Glass, leather, marble (SCAN), MDF 2–4 mm (CUT), cardboard, paper, thermocol</li>
+                <li><strong>Wood tip:</strong> Increase power, keep speed below 25</li>
+                <li>Chiller must be started before the machine; water changed every 15 days</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">Parameters</span><span class="day-tag">Material Settings</span><span class="day-tag">CUT vs SCAN</span></div>
+          </div>
+        </div>
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 3</span>
+            <span class="day-title">Electronics Basics & Arduino IDE</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Tool: Arduino IDE · Concept: Microcontrollers, Sensors, Physical AI</p>
+            <div class="day-desc">
+              <p>Introduction to electronics fundamentals — what microcontrollers are, how sensors work, and the concept of Physical AI.</p>
+              <ul>
+                <li><strong>Arduino IDE:</strong> Write sketches → Upload via USB → Monitor via Serial Monitor</li>
+                <li><strong>Microcontroller vs Microprocessor:</strong> MCU (ESP32) = all-in-one; MPU (laptop CPU) = needs external RAM/storage</li>
+                <li><strong>Physical AI:</strong> AI that interacts with the real world — self-driving cars, delivery robots, smart homes</li>
+                <li><strong>Sensors studied:</strong> DHT11 (temp/humidity), HC-SR04 (ultrasonic), PIR (motion), LDR (light), MQ-2 (gas)</li>
+                <li>Active sensors (need power: DHT11, PIR) vs Passive sensors (detect natural energy: LDR, thermocouple)</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">Arduino IDE</span><span class="day-tag">ESP32</span><span class="day-tag">Sensors</span><span class="day-tag">Physical AI</span></div>
+          </div>
+        </div>
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 4</span>
+            <span class="day-title">Control Systems — P, PI & PID</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Concept: Feedback Control Theory</p>
+            <div class="day-desc">
+              <p>Learned about control systems used in automation and robotics to regulate speed, temperature, and position.</p>
+              <ul>
+                <li><strong>P Controller:</strong> Output proportional to error — fast but may have steady-state error</li>
+                <li><strong>PI Controller:</strong> Adds Integral term → removes accumulated error; more accurate, slightly slower</li>
+                <li><strong>PID Controller:</strong> P (present) + I (past) + D (future) — highest accuracy, fastest stable response; used in robots, drones, industrial systems</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">PID</span><span class="day-tag">Control Systems</span><span class="day-tag">Automation</span><span class="day-tag">Robotics</span></div>
+          </div>
+        </div>
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 5</span>
+            <span class="day-title">Wokwi Simulator — ESP32 LED Blink</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Tool: Wokwi · Concept: GPIO, PWM, LED Circuit</p>
+            <div class="day-desc">
+              <p>Used Wokwi (browser-based simulator) to build and test an ESP32 LED blink circuit without any physical hardware.</p>
+              <ul>
+                <li>Signed up on wokwi.com, selected ESP32 DevKit V1 template</li>
+                <li>Added LED and 220 Ω resistor from component library</li>
+                <li>Wired: GPIO D14 → LED anode → 220 Ω resistor → GND</li>
+                <li>Wrote Blink sketch: <code>pinMode(14, OUTPUT)</code>, <code>digitalWrite HIGH/LOW</code>, <code>delay(1000)</code></li>
+                <li>Ran simulation — virtual LED toggled every second with serial output visible</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">Wokwi</span><span class="day-tag">ESP32</span><span class="day-tag">LED Blink</span><span class="day-tag">GPIO</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WEEK 3 -->
+    <div class="week-panel" id="week-3">
+      <div class="days-timeline">
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 1</span>
+            <span class="day-title">ESP32 Complete Documentation</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Chip: Espressif ESP32 · Concept: SoC Architecture & Pinout</p>
+            <div class="day-desc">
+              <p>Deep dive into the ESP32 ecosystem — the chip that powers most projects in the lab.</p>
+              <ul>
+                <li><strong>ESP32:</strong> Dual-core 240 MHz, Wi-Fi + BT 4.2, successor to ESP8266 (2016)</li>
+                <li><strong>GPIO:</strong> 34 programmable pins; ADC1 (8 ch, Wi-Fi safe), ADC2 (10 ch, no Wi-Fi), DAC on GPIO25 &amp; 26</li>
+                <li><strong>Communication:</strong> 3× UART, 4× SPI, 2× I2C, 2× I2S, CAN 2.0, Ethernet MAC</li>
+                <li><strong>Pinout:</strong> GPIO6–11 = internal flash (avoid!), GPIO34–39 = input-only, GPIO0/2 = strapping pins</li>
+                <li><strong>Frameworks:</strong> Arduino IDE (easiest), ESP-IDF (official C/C++), MicroPython, PlatformIO</li>
+                <li><strong>Variants:</strong> S2 (USB), S3 (BT5, AI), C3/C6 (RISC-V), H2 (Zigbee/Thread)</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">ESP32</span><span class="day-tag">SoC</span><span class="day-tag">Pinout</span><span class="day-tag">GPIO</span><span class="day-tag">Wi-Fi</span></div>
+          </div>
+        </div>
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 2</span>
+            <span class="day-title">Arduino Uno, Nano & Mega 2560</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Boards: ATmega328P / ATmega2560 · Concept: Board Selection</p>
+            <div class="day-desc">
+              <p>Compared three classic Arduino boards to understand which to use in different project scenarios.</p>
+              <ul>
+                <li><strong>Uno Rev3:</strong> ATmega328P @ 16 MHz, 14 digital I/O (6 PWM), 6 analog — ideal for beginners, fits shields</li>
+                <li><strong>Nano:</strong> Same ATmega328, smallest footprint, 8 analog inputs (A0–A7), plugs into breadboard — for space-limited builds</li>
+                <li><strong>Mega 2560:</strong> ATmega2560 @ 16 MHz, 54 digital I/O, 16 analog, 4× UART, 8 KB SRAM — choose when pin count matters</li>
+                <li>All run 5V logic, use Arduino IDE, and accept the same sketch syntax</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">Arduino Uno</span><span class="day-tag">Arduino Nano</span><span class="day-tag">Mega 2560</span><span class="day-tag">ATmega</span></div>
+          </div>
+        </div>
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 3</span>
+            <span class="day-title">Firebase — Auth, Realtime DB & Web App</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Tool: Firebase Console · Concept: Backend as a Service</p>
+            <div class="day-desc">
+              <p>Created a full Firebase backend for an ESP32 IoT weather app (AccuWeather project).</p>
+              <ul>
+                <li>Created Firebase project <em>esp32</em> with Google Analytics and Gemini AI enabled</li>
+                <li><strong>Authentication:</strong> Enabled Google sign-in provider; Android SHA-1 setup noted</li>
+                <li><strong>Realtime Database:</strong> Singapore region (asia-southeast1), test mode, JSON tree for live sensor data sync</li>
+                <li><strong>Admin SDK:</strong> Generated service account key (JSON) for server-side Python/Node.js access</li>
+                <li><strong>Web App:</strong> Registered AccuWeather app, copied <code>firebaseConfig</code> with <code>initializeApp()</code></li>
+                <li>Uploaded ESP32 code via Arduino IDE; viewed live output in browser using VS Code Live Server</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">Firebase</span><span class="day-tag">Realtime DB</span><span class="day-tag">Auth</span><span class="day-tag">IoT Backend</span></div>
+          </div>
+        </div>
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 4</span>
+            <span class="day-title">BO Motors, L298 Driver & MG995 Servo</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Components: L298 H-Bridge, MG995 Servo · Concept: Motor Control</p>
+            <div class="day-desc">
+              <p>Learned how DC motors and servos work, and how to control them with an H-bridge driver.</p>
+              <ul>
+                <li><strong>BO Motor Gearbox:</strong> Multiple spur gear stages reduce RPM → multiply torque; yellow plastic housing + white compound gears</li>
+                <li><strong>Motor internals:</strong> Rotor coil, commutator, permanent magnets (stator), brushes, noise capacitor</li>
+                <li><strong>L298 H-Bridge:</strong> PWM varies voltage → controls speed; current reversal → changes direction (CW/CCW); one module controls 2 motors</li>
+                <li><strong>MG995 Servo:</strong> ~120° rotation, metal gears, 3-wire connector (brown/red/orange), standard servo library compatible</li>
+                <li>Closed-loop servo control: Controller → Drive signal → Motor → Encoder → Feedback</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">BO Motor</span><span class="day-tag">L298</span><span class="day-tag">MG995</span><span class="day-tag">PWM</span><span class="day-tag">H-Bridge</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WEEK 4 -->
+    <div class="week-panel" id="week-4">
+      <div class="days-timeline">
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 1</span>
+            <span class="day-title">ESP32 LED Blink — Basic & WiFi-Controlled</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Tool: Arduino IDE + WebServer Library · Concept: WiFi GPIO Control</p>
+            <div class="day-desc">
+              <p>Built two LED circuits with progressively more complexity.</p>
+              <p><strong>Code 1 — Simple Blink:</strong></p>
+              <ul>
+                <li>Connected LED long leg → GPIO 2, short leg → GND</li>
+                <li>Used <code>pinMode(2, OUTPUT)</code> and <code>digitalWrite HIGH/LOW</code> with 1000 ms delay</li>
+              </ul>
+              <p><strong>Code 2 — WiFi Web Server:</strong></p>
+              <ul>
+                <li>Included <code>WiFi.h</code> and <code>WebServer.h</code> libraries</li>
+                <li>ESP32 connects to local Wi-Fi → hosts a web page at its IP address</li>
+                <li>Web page has ON/OFF buttons — pressing them sends HTTP requests to toggle the LED</li>
+                <li>Accessed from phone browser on same network: <code>http://192.168.x.x</code></li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">ESP32</span><span class="day-tag">WiFi</span><span class="day-tag">WebServer</span><span class="day-tag">LED Control</span></div>
+          </div>
+        </div>
+
+        <div class="day-entry">
+          <div class="day-header" onclick="toggleDay(this)">
+            <span class="day-badge">Day 2</span>
+            <span class="day-title">Edge Impulse — TinyML Image Classification</span>
+            <span class="day-toggle">▼</span>
+          </div>
+          <div class="day-body">
+            <p class="day-topic">// Tool: Edge Impulse Studio · Concept: ML on Microcontrollers</p>
+            <div class="day-desc">
+              <p>Trained a machine learning model to classify images of letters A, B, and C — deployed targeting Cortex-M4F microcontroller.</p>
+              <ul>
+                <li>Created project: <em>Alphabets_classification</em>, target: Cortex-M4F 80 MHz</li>
+                <li>Collected 10 camera samples (phone) — labels A, B, C — 90%/10% train/test split</li>
+                <li><strong>Impulse pipeline:</strong> Image data (96×96 RGB) → Image DSP block → CNN Classifier → Output A/B/C</li>
+                <li>Generated features; viewed scatter plot showing class clusters (blue/orange/green)</li>
+                <li><strong>CNN Architecture:</strong> 16-filter conv → 32-filter conv → Flatten → Dropout 0.25 → 3-class output</li>
+                <li><strong>Results:</strong> 50% accuracy (quantized int8); Class C detected well; A/C overlap — more data needed</li>
+              </ul>
+            </div>
+            <div class="day-tags"><span class="day-tag">Edge Impulse</span><span class="day-tag">TinyML</span><span class="day-tag">CNN</span><span class="day-tag">Image Classification</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label reveal">// projects & learning</p>
+    <h2 class="section-title reveal">Things I Built</h2>
+    <p class="section-subtitle reveal">Hands-on outputs from four weeks at the lab.</p>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-icon">💡</div>
+        <h3 class="project-title">WiFi-Controlled LED System</h3>
+        <p class="project-desc">ESP32 hosts a local web server accessible from any device on the same network. ON/OFF buttons toggle a GPIO LED via HTTP requests — no app install needed.</p>
+        <div class="project-tech"><span class="tech-tag">ESP32</span><span class="tech-tag">WebServer.h</span><span class="tech-tag">WiFi.h</span><span class="tech-tag">HTML</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon">📛</div>
+        <h3 class="project-title">Tinkerers' Lab Internship Badge</h3>
+        <p class="project-desc">Vector logo built in Inkscape — red/blue rings with curved text (TINKERERS' LAB & INTERN). All shapes are paths so they scale infinitely without pixelation.</p>
+        <div class="project-tech"><span class="tech-tag">Inkscape</span><span class="tech-tag">SVG</span><span class="tech-tag">Path Curves</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon">📱</div>
+        <h3 class="project-title">3D Printed Mobile Stand</h3>
+        <p class="project-desc">Designed in Fusion 360 (2 mm base thickness), sliced in Bambu Studio, printed on Bambu Lab A1 Mini in PLA. First physical object created from a digital file.</p>
+        <div class="project-tech"><span class="tech-tag">Fusion 360</span><span class="tech-tag">Bambu Studio</span><span class="tech-tag">PLA</span><span class="tech-tag">FDM</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon">🔑</div>
+        <h3 class="project-title">Laser-Cut Keychains</h3>
+        <p class="project-desc">Designed nameplate shapes in LaserCAD — oval outline (Cut layer) with engraved name text. Produced one wood and one acrylic keychain using CO₂ laser cutter.</p>
+        <div class="project-tech"><span class="tech-tag">LaserCAD</span><span class="tech-tag">CO₂ Laser</span><span class="tech-tag">Acrylic</span><span class="tech-tag">Wood</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon">🧠</div>
+        <h3 class="project-title">Alphabet Classifier (TinyML)</h3>
+        <p class="project-desc">Collected image data for letters A, B, C and trained a CNN on Edge Impulse targeting Cortex-M4F. Achieved 50% accuracy on first run — identified dataset size as key improvement area.</p>
+        <div class="project-tech"><span class="tech-tag">Edge Impulse</span><span class="tech-tag">CNN</span><span class="tech-tag">TinyML</span><span class="tech-tag">int8</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon">☁️</div>
+        <h3 class="project-title">IoT Firebase Backend (AccuWeather)</h3>
+        <p class="project-desc">Set up a complete Firebase backend — Realtime Database in Singapore region, Google Auth, Admin SDK credentials, and a registered web app with firebaseConfig for ESP32 data logging.</p>
+        <div class="project-tech"><span class="tech-tag">Firebase</span><span class="tech-tag">Realtime DB</span><span class="tech-tag">ESP32</span><span class="tech-tag">IoT</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GOALS -->
+<section id="goals">
+  <div class="container">
+    <p class="section-label reveal">// future goals</p>
+    <h2 class="section-title reveal">Where I'm Headed</h2>
+    <div class="goals-inner">
+      <ul class="goals-list reveal">
+        <li>
+          <span class="goal-num">01</span>
+          <span>Keep practising <strong>Arduino and ESP32 basics</strong> — build simple sensor projects at home to strengthen the foundation I started at Tinkerers' Lab.</span>
+        </li>
+        <li>
+          <span class="goal-num">02</span>
+          <span>Learn more about <strong>how IoT can be used in healthcare</strong> — understand real-world examples like smart pill dispensers and patient monitoring concepts, even if building them comes later.</span>
+        </li>
+        <li>
+          <span class="goal-num">03</span>
+          <span>Get more comfortable with <strong>3D design in Fusion 360</strong> — practice modeling simple objects so I can eventually design pharmacy-related tools or enclosures.</span>
+        </li>
+        <li>
+          <span class="goal-num">04</span>
+          <span>Explore how <strong>technology and pharmacy connect</strong> — study topics like digital health, smart drug delivery systems, and healthcare innovation as part of my degree journey.</span>
+        </li>
+        <li>
+          <span class="goal-num">05</span>
+          <span>Continue building skills step by step — <strong>combining what I learn in B Pharmacy</strong> with the maker skills from this internship to grow into a healthcare innovator over time.</span>
+        </li>
+      </ul>
+      <div class="goals-quote reveal">
+        <p>I came into this internship as a pharmacy student with no electronics background. I leave with the confidence that technology and healthcare belong together — and I'm just getting started.</p>
+        <cite>— Shruti Warkad, Tinkerers' Lab Intern</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-name">Shruti Warkad</p>
+  <p class="footer-sub">B Pharmacy Student &nbsp;·&nbsp; Tinkerers' Lab Internship</p>
+  <p class="footer-sub" style="margin-top:0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--border)">Built with curiosity, code, and caffeine ✦</p>
+</footer>
+
+<script>
+  /* Week tab switching */
+  function showWeek(n) {
+    document.querySelectorAll('.week-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('week-' + n).classList.add('active');
+    document.querySelectorAll('.week-tab')[n - 1].classList.add('active');
+    // trigger day entry animations
+    setTimeout(animateDays, 50);
+  }
+
+  /* Day accordion toggle */
+  function toggleDay(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.day-toggle');
+    const isOpen = body.classList.contains('open');
+    // close all in same panel
+    header.closest('.week-panel').querySelectorAll('.day-body').forEach(b => b.classList.remove('open'));
+    header.closest('.week-panel').querySelectorAll('.day-toggle').forEach(t => t.classList.remove('open'));
+    if (!isOpen) {
+      body.classList.add('open');
+      toggle.classList.add('open');
+    }
+  }
+
+  /* Scroll reveal */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // skill bar animation
+        e.target.querySelectorAll && e.target.querySelectorAll('.skill-fill').forEach(fill => {
+          fill.style.width = fill.dataset.w + '%';
+        });
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Standalone skill bars
+  const skillObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.skill-fill').forEach(fill => {
+          fill.style.width = fill.dataset.w + '%';
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.skills-grid').forEach(el => skillObs.observe(el));
+
+  /* Day entry animations for active week */
+  function animateDays() {
+    document.querySelectorAll('.week-panel.active .day-entry').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 120);
+    });
+  }
+  animateDays();
+
+  /* Scroll-trigger day entries */
+  const dayObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.day-entry').forEach(el => dayObs.observe(el));
+</script>
+</body>
+</html>
